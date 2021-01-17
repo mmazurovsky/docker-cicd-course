@@ -1,0 +1,22 @@
+version: '3'
+services: 
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    # volumes helps to init connection between the code in editor and code in container
+    # so that any changes in editor trigger code change in container too
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests: 
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # overriding staring command
+    command: ["npm", "run", "test"]
